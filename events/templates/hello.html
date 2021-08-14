@@ -1,10 +1,16 @@
 <html>
 <body>
 
-{% if name %}
-<h1>Hello you {{ name }}</h1>
-{% else %}
-<h1>Hello World<h1>
-{% endif %}
+  {% if name %}
+  <h1>{{ name }}</h1>
+  {% else %}
+  <h1>Hello World<h1>
+      {% endif %}
+      
+  <ul>
+    {% for product in products %}
+    <li>{{ product.title }} : <b>{{ product.store_price }}</b></li>
+    {% endfor %}
+  </ul>  
 </body>
 </html>
