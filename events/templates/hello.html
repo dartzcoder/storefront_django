@@ -8,9 +8,12 @@
       {% endif %}
       
   <ul>
-    {% for product in products %}
-    <li>{{ product.title }} : <b>{{ product.store_price }}</b></li>
+    {% for order in orders %}
+    {# <li>{{ product.title }} : <b>{{ product.store_price }}</b> <b>{{ product.collection_id }}</b></li> #}
+    {# <li>{{ product.email }} </li> #}
+    <li>{{ order.full_name }}}</li>
     {% endfor %}
+    {{ result }}
   </ul>  
 </body>
 </html>
