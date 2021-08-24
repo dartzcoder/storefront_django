@@ -5,10 +5,15 @@ from . import models
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['title', 'store_price', 'inventory', 'inventory_status']
+    list_display = ['title', 'store_price', 'inventory', 'inventory_status', 'collection_title']
     list_editable = ['store_price']
     ordering = ['inventory']
     list_per_page = 10
+    #Optimizes query
+    list_select_related = ['collection']
+
+    def collection_title(self, product):
+        return product.collection.title
 
     @admin.display(ordering='inventory')
     def inventory_status(self, product):
