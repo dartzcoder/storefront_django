@@ -11,7 +11,6 @@ class ProductAdmin(admin.ModelAdmin):
     list_per_page = 10
     #Optimizes query
     list_select_related = ['collection']
-
     def collection_title(self, product):
         return product.collection.title
 
@@ -28,6 +27,13 @@ class CustomerAdmin(admin.ModelAdmin):
     ordering = ['first_name', 'last_name']
     list_per_page = 10
 
+@admin.register(models.Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ["id", "placed_at", "customer_id", "customer_name"]
+    list_per_page = 10
+    list_select_related = ['customer']
+    def customer_name(self, order):
+        return f'{order.customer.first_name} {order.customer.last_name}'
+    
 admin.site.register(models.Collection)
-admin.site.register(models.Order)
 admin.site.register(models.OrderItem)
