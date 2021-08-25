@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.db.models.aggregates import Count
-from django.utils.html import format_html
+from django.utils.html import format_html, urlencode
 from django.urls import reverse
 from . import models
 
@@ -46,7 +46,12 @@ class CollectionAdmin(admin.ModelAdmin):
 
     @admin.display(ordering='products_count')
     def products_count(self, collection):
-        url = reverse('admin:store_product_changelist')
+        # Create query string to filter by collection id
+        url = (reverse('admin:store_product_changelist')
+               +'?'
+               + urlencode({
+                   'collection__id': str(collection.id)
+               }))
         return format_html('<a href="{}">{}</a>', url, collection.products_count)
 
     def get_queryset(self, request):
