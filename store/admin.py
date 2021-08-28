@@ -6,10 +6,24 @@ from . import models
 
 # Register your models here.
 
+class InventoryFilter(admin.SimpleListFilter):
+    title = 'inventory'
+    parameter_name = 'inventory'
+
+    def lookups(self, request, model_admin):
+        return [
+            ('<10', 'Low')
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value() == '<10':
+            return queryset.filter(inventory__lt=10)
+
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['title', 'store_price', 'inventory', 'inventory_status', 'collection_title']
     list_editable = ['store_price']
+    list_filter = ['collection', 'last_update', InventoryFilter]
     ordering = ['inventory']
     list_per_page = 10
     #Optimizes query
@@ -29,6 +43,7 @@ class CustomerAdmin(admin.ModelAdmin):
     list_display = ['id', 'first_name', 'last_name', 'membership']
     list_editable = ['membership']
     ordering = ['first_name', 'last_name']
+    search_fields = ['first_name__istartswith', 'last_name__istartswith']
     list_per_page = 10
 
 @admin.register(models.Order)
